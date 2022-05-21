@@ -12,8 +12,8 @@ function getById(id){
 
 function add(resource){
     return db('resources').insert(resource)
-    .then(result=>{ getById(id)
-
+    .then(result=>{
+         return getById(result)
     })
 }
 function getByName(name){

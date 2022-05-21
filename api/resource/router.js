@@ -11,25 +11,24 @@ router.get('/',(req,res,next)=>{
     .catch(next)
 })
 
-router.post('/',(req,res,next)=>{
+router.post('/',async (req,res,next)=>{
     const {resource_name} = req.body
     if(!resource_name){
         res.status(400).json({message:'resource_name is required'})
     }else{
-        Resources.getByName(resource_name)
-        .then((exists)=>{
-            if(!exists){
+        const exists = await Resources.getByName(resource_name)
+            if(exists){
                 res.status(400).json({message:'resource_name must be unique'})
+                console.log(exists)
             } else{
                 Resources.add(req.body)
                 .then(result=>{
+                    console.log(result)
                     res.status(201).json(result)
                 })
                 .catch(next)
             }
-        })
-        .catch(next)
-            }
+        }  
     })
     
 module.exports =router
