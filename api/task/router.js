@@ -4,7 +4,7 @@ const Tasks = require('./model')
 const router = express.Router()
 
 router.get('/',(req,res,next)=>{
-    Tasks.getALL()
+    Tasks.getAll()
     .then(result=>{
         result.map( task=>{
             task.task_completed === 0?
