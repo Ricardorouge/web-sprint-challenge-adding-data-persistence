@@ -17,7 +17,7 @@ exports.up = async function (knex) {
         tbl.increments("task_id");
         tbl.string("task_description").notNullable();
         tbl.string("task_notes");
-        tbl.boolean("task_completed").notNullable().defaultTo(0);
+        tbl.boolean("task_completed").defaultTo(0);
         tbl
           .integer("project_id")
           .unsigned()
@@ -28,26 +28,26 @@ exports.up = async function (knex) {
           .onDelete("RESTRICT");
       })
   
-    //   .createTable("project_resources", (tbl) => {
-    //     tbl.increments("project_resources_id");
-    //     tbl
-    //       .integer("project_id")
-    //       .unsigned()
-    //       .notNullable()
-    //       .references("project_id")
-    //       .inTable("projects");
-    //     tbl
-    //       .integer("resource_id")
-    //       .unsigned()
-    //       .notNullable()
-    //       .references("resource_id")
-    //       .inTable("resources");
-    //   });
+      .createTable("project_resources", (tbl) => {
+        tbl.increments("project_resources_id");
+        tbl
+          .integer("project_id")
+          .unsigned()
+          .notNullable()
+          .references("project_id")
+          .inTable("projects");
+        tbl
+          .integer("resource_id")
+          .unsigned()
+          .notNullable()
+          .references("resource_id")
+          .inTable("resources");
+      });
   };
 
 exports.down = async function (knex) {
   await knex.schema
-    // .dropTableIfExists("project_resources_id")
+    .dropTableIfExists("project_resources")
     .dropTableIfExists("tasks")
     .dropTableIfExists("resources")
     .dropTableIfExists("projects");
